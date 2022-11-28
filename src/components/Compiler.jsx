@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContCompilerDatat, useEffect, useState } from "react";
 import { LoginAcc, addAcc, auth, googleMe, app } from "./auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import {
@@ -17,33 +17,35 @@ import {
 import { motion } from "framer-motion";
 import Ram from "./Ram";
 import Gui from "./Gui";
-import DiscContext from "./DiscDir";
+import DiscContCompilerDatat from "./DiscDir";
 
 const db = getFirestore(app);
 
 const colRef = collection(db, "chat");
-const colTodo = collection(db, "todos");
+const colTodo = collection(db, "LocaleTodo");
 let q = query(colRef, orderBy("createdAt", "asc"), limit(50));
 export default function Terminal() {
-  let [User, setUser] = useState({ displayName: "...", uid: "geust" });
+  let [UserData, setUserData] = useState({ displayName: "...", uid: "geust" });
   let qt = query(
     colTodo,
-    where("user", "==", User.uid)
+    where("user", "==", UserData.uid)
     // orderBy("createdAt", "asc")
   );
-  let { Tabs, addTab, addTabData, selectTab } = useContext(DiscContext);
+  let { Tabs, addTab, addTabData, selectTab } = useContCompilerDatat(
+    DiscContCompilerDatat
+  );
   let [history, setHistory] = useState([]);
-  let [Ex, setEx] = useState(Tabs[0].tab);
-  let [Comand, setComand] = useState("");
-  let [Last, setLast] = useState(1);
+  let [CompilerData, setCompilerData] = useState(Tabs[0].tab);
+  let [UserComand, setUserComand] = useState("");
+  let [HistoryLast, setHistoryLast] = useState(1);
   let [chat, setChat] = useState(false);
-  let [todos, settodos] = useState([]);
+  let [LocaleTodo, setLocaleTodo] = useState([]);
   let [istodo, setshowtodo] = useState(false);
-  let [todo, setTodo] = useState(false);
+  let [UserTodo, setUserTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
   let [StopInp, setInpStop] = useState(false);
-  let [Cms] = useState([
-    { c: "about", des: "return the username if is login.... (auth)" },
+  let [CommandList] = useState([
+    { c: "auth", des: "return the username if is login.... (auth)" },
     {
       c: "do",
       des: "return a random activity to do if you boring (: ...... (do)",
@@ -111,21 +113,20 @@ export default function Terminal() {
       des: "navigate to my github reposotory ......(repo) ",
     },
   ]);
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUserData(user);
       } else {
-        setUser({ displayName: "geust", uid: "geust" });
+        setUserData({ displayName: "geust", uid: "geust" });
       }
     });
   }, [auth]);
   useEffect(() => {
-    addTabData(Ex);
-  }, [Ex]);
-  let addEx = (p, va) => {
-    setEx((prev) => [
+    addTabData(CompilerData);
+  }, [CompilerData]);
+  let addCompilerData = (p, va) => {
+    setCompilerData((prev) => [
       ...prev,
       {
         c: p,
@@ -134,11 +135,11 @@ export default function Terminal() {
     ]);
   };
   let Compiler = async (v) => {
-    setComand("Running ...");
+    setUserComand("Running ...");
     setInpStop(true);
     // space
     if (v.toLowerCase().trim() === "banner") {
-      addEx(
+      addCompilerData(
         v,
         `
         ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
@@ -151,19 +152,22 @@ export default function Terminal() {
     }
     // space
     else if (v.toLowerCase().trim() === "help") {
-      addEx(v, "");
+      addCompilerData(v, "");
     }
     // space
     else if (v.toLowerCase().trim() === "auth") {
-      addEx(v, User.displayName);
+      addCompilerData(v, UserData.displayName);
     }
     // space
     else if (v.toLowerCase().includes("login")) {
       if (v.split(" ").length === 3) {
         let mes = await LoginAcc(v.split(" ")[1], v.split(" ")[2]);
-        addEx(v, mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes);
+        addCompilerData(
+          v,
+          mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes
+        );
       } else {
-        addEx(
+        addCompilerData(
           v,
           "⚠️ the syntacs is not correct. login (email.com) (Mypassword)"
         );
@@ -173,9 +177,12 @@ export default function Terminal() {
     else if (v.toLowerCase().includes("join")) {
       if (v.split(" ").length === 3) {
         let mes = await addAcc(v.split(" ")[1], v.split(" ")[2]);
-        addEx(v, mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes);
+        addCompilerData(
+          v,
+          mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes
+        );
       } else {
-        addEx(
+        addCompilerData(
           v,
           "⚠️ the syntacs is not correct. login (email.com) (Mypassword)"
         );
@@ -184,9 +191,9 @@ export default function Terminal() {
     // space
     else if (v.toLowerCase().trim() === "signout") {
       await signOut(auth);
-      addEx(v, "you have signed Out");
-      setUser({ displayName: "guest", uid: "geust" });
-      setTodo(false);
+      addCompilerData(v, "you have signed Out");
+      setUserData({ displayName: "guest", uid: "geust" });
+      setUserTodo(false);
     }
     // space
     else if (v.toLowerCase().trim() === "chat") {
@@ -201,11 +208,11 @@ export default function Terminal() {
             setChat(d);
           });
         } catch (er) {
-          setEx(v, "there an erore please refrech");
+          setCompilerData(v, "there an erore please refrech");
         }
       };
       GetData();
-      addEx(v, "");
+      addCompilerData(v, "");
     }
     // space
     else if (v.toLowerCase().trim() === "chat close") {
@@ -214,7 +221,7 @@ export default function Terminal() {
     // space
     else if (v.toLowerCase().trim() === "todos close") {
       setshowtodo(false);
-      setTodo(false);
+      setUserTodo(false);
     }
     // space
     else if (v.toLowerCase().includes("say")) {
@@ -222,10 +229,14 @@ export default function Terminal() {
         addDoc(colRef, {
           message: v.slice(3),
           createdAt: serverTimestamp(),
-          user: User.displayName !== "geust" ? User.displayName : "geust",
+          user:
+            UserData.displayName !== "geust" ? UserData.displayName : "geust",
         });
       } else {
-        addEx(v, "please open the chat before send a message by type 'chat'");
+        addCompilerData(
+          v,
+          "please open the chat before send a message by type 'chat'"
+        );
       }
     }
     // space
@@ -234,15 +245,15 @@ export default function Terminal() {
       !v.toLowerCase().includes("delete todo") &&
       v.toLowerCase().trim() !== "todos"
     ) {
-      if (User.uid !== "geust") {
+      if (UserData.uid !== "geust") {
         setshowtodo(false);
         addDoc(colTodo, {
           todo: v.slice(4),
           createdAt: serverTimestamp(),
-          user: User.uid,
+          user: UserData.uid,
         });
       } else {
-        settodos((prev) => [
+        setLocaleTodo((prev) => [
           ...prev,
           {
             todo: v.slice(4),
@@ -251,43 +262,45 @@ export default function Terminal() {
           },
         ]);
       }
-      addEx(v, "this todo is added");
-      setComand("");
+      addCompilerData(v, "this todo is added");
+      setUserComand("");
     }
     // space
     else if (v.toLowerCase().includes("delete todo")) {
-      if (User.uid !== "geust") {
+      if (UserData.uid !== "geust") {
         if (
-          parseInt(v.split(" ")[2]) <= todo.length &&
+          parseInt(v.split(" ")[2]) <= UserTodo.length &&
           typeof parseInt(v.split(" ")[2]) === "number"
         ) {
-          let docRef = doc(db, "todos", todo[+v.split(" ")[2]].id);
+          let docRef = doc(db, "todos", UserTodo[+v.split(" ")[2]].id);
           deleteDoc(docRef)
-            .then(() => addEx(v, "this todo is deleted"))
-            .catch((er) => addEx(v, er.message));
-        } else addEx(v, "this number is not valid");
+            .then(() => addCompilerData(v, "this todo is deleted"))
+            .catch((er) => addCompilerData(v, er.message));
+        } else addCompilerData(v, "this number is not valid");
       } else {
         if (
-          parseInt(v.split(" ")[2]) <= todos.length &&
+          parseInt(v.split(" ")[2]) <= LocaleTodo.length &&
           typeof parseInt(v.split(" ")[2]) === "number"
         ) {
-          settodos(todos.filter((e, i) => i !== parseInt(v.split(" ")[2])));
-          addEx(v, "this todo is deleted");
-          console.log(todos);
-        } else addEx(v, "this number is not valid");
+          setLocaleTodo(
+            LocaleTodo.filter((e, i) => i !== parseInt(v.split(" ")[2]))
+          );
+          addCompilerData(v, "this todo is deleted");
+          console.log(LocaleTodo);
+        } else addCompilerData(v, "this number is not valid");
       }
     }
     // space
     else if (v.toLowerCase().trim() === "todos") {
-      if (User.uid !== "geust") {
+      if (UserData.uid !== "geust") {
         let GetData = async () => {
-          setTodo([{ todo: "..." }]);
-          if (todos.length !== 0) {
-            todos.map((t) => {
+          setUserTodo([{ todo: "..." }]);
+          if (LocaleTodo.length !== 0) {
+            LocaleTodo.map((t) => {
               addDoc(colTodo, {
                 todo: t.todo,
                 createdAt: serverTimestamp(),
-                user: User.uid,
+                user: UserData.uid,
               });
             });
           }
@@ -296,15 +309,15 @@ export default function Terminal() {
             snapshot.docs.map((doc) => {
               return d.push({ ...doc.data(), id: doc.id });
             });
-            settodos([]);
-            setTodo(d);
+            setLocaleTodo([]);
+            setUserTodo(d);
           });
         };
         GetData();
-        addEx(v, "");
+        addCompilerData(v, "");
       } else {
         setshowtodo(true);
-        addEx(v, "");
+        addCompilerData(v, "");
       }
     }
     // space
@@ -316,80 +329,83 @@ export default function Terminal() {
             activity: error.message,
           };
         });
-      addEx(v, res.activity);
+      addCompilerData(v, res.activity);
     }
     // space
     else if (v.toLowerCase().trim() === "add tab") {
       addTab();
-      addEx(v, "the tab was added");
+      addCompilerData(v, "the tab was added");
     }
     // space
     else if (v.toLowerCase().includes("select tab")) {
       if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
         let mes = selectTab(v.split(" ")[2]);
-        setEx([]);
-        if (typeof mes === "string") addEx(v, mes);
-        else setEx(mes || []);
+        setCompilerData([]);
+        if (typeof mes === "string") addCompilerData(v, mes);
+        else setCompilerData(mes || []);
       } else {
-        addEx(v, "please enter a valid number");
+        addCompilerData(v, "please enter a valid number");
       }
     }
     // space
     else if (v.toLowerCase().trim() === "google") {
       let mes = await googleMe();
-      addEx(v, mes);
+      addCompilerData(v, mes);
     }
     // space
     else if (v.toLowerCase().includes("translate")) {
       if (v.split(" ")[2] && v.split(" ")[1]) {
         window.open(
-          `https://translate.google.com/?sl=auto&tl=${v.split(" ")[2]}&text=${
-            v.split(" ")[1]
-          }&op=translate`,
+          `https://translate.google.com/?sl=auto&tl=${
+            v.split(" ")[2]
+          }&tCompilerDatat=${v.split(" ")[1]}&op=translate`,
           "_blank",
           "noopener,noreferrer"
         );
-        addEx(v, "the translte page is oppennig ...");
+        addCompilerData(v, "the translte page is oppennig ...");
       } else
-        addEx(
+        addCompilerData(
           v,
-          "⚠️ the syntacs is incorrect. translate (text) (languaege: en,ar...)"
+          "⚠️ the syntacs is incorrect. translate (tCompilerDatat) (languaege: en,ar...)"
         );
     }
     // space
     else {
-      Cms.filter((c) => c.c.includes(v)).length !== 0
-        ? Cms.filter((c) => c.c.includes(v))[0].c == v
-          ? addEx(
+      CommandList.filter((c) => c.c.includes(v)).length !== 0
+        ? CommandList.filter((c) => c.c.includes(v))[0].c == v
+          ? addCompilerData(
               v,
               `the syntacs is incorrect: '${
-                Cms.filter((c) => c.c.includes(v))[0].des
+                CommandList.filter((c) => c.c.includes(v))[0].des
               }' ⚠️`
             )
-          : addEx(
+          : addCompilerData(
               v,
               `Command not found: '${v}' . Did you min '${
-                Cms.filter((c) => c.c.includes(v))[0].c
+                CommandList.filter((c) => c.c.includes(v))[0].c
               } ⚠️'`
             )
-        : addEx(v, `Command not found: '${v}'. Try 'help' to get started. ⚠️`);
+        : addCompilerData(
+            v,
+            `Command not found: '${v}'. Try 'help' to get started. ⚠️`
+          );
     }
     setInpStop(false);
-    setComand("");
+    setUserComand("");
   };
   let hanlde = (ev) => {
     Ram(
       ev,
-      Comand,
-      setComand,
+      UserComand,
+      setUserComand,
       setAuto,
       history,
       setHistory,
-      setLast,
-      addEx,
-      Last,
+      setHistoryLast,
+      addCompilerData,
+      HistoryLast,
       chat,
-      setEx,
+      setCompilerData,
       auto,
       Compiler
     );
@@ -402,15 +418,15 @@ export default function Terminal() {
   }, [auto]);
   return (
     <Gui
-      User={User}
-      Cms={Cms}
-      Ex={Ex}
+      UserData={UserData}
+      CommandList={CommandList}
+      CompilerData={CompilerData}
       istodo={istodo}
-      todos={todos}
+      LocaleTodo={LocaleTodo}
       chat={chat}
-      todo={todo}
-      Comand={Comand}
-      setComand={setComand}
+      UserTodo={UserTodo}
+      UserComand={UserComand}
+      setUserComand={setUserComand}
       hanlde={hanlde}
       StopInp={StopInp}
     />

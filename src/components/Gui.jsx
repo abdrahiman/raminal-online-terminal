@@ -1,15 +1,15 @@
 import { FcRight } from "react-icons/fc";
 
 export default function Gui({
-  User,
-  Cms,
-  Ex,
+  UserData,
+  CommandList,
+  CompilerData,
   istodo,
-  todos,
+  LocaleTodo,
   chat,
-  todo,
-  Comand,
-  setComand,
+  UserTodo,
+  UserComand,
+  setUserComand,
   hanlde,
   StopInp,
 }) {
@@ -17,11 +17,11 @@ export default function Gui({
     <div className="Tab">
       <div className="terminal" style={{ overflowY: "auto" }}>
         <div className="comands">
-          {Ex &&
-            Ex.map((ob) => (
+          {CompilerData &&
+            CompilerData.map((ob) => (
               <div key={Math.random()}>
                 <div key={Math.random()}>
-                  <span>{User.displayName}</span>
+                  <span>{UserData.displayName}</span>
                   <p className="text-green-700 inline">@raminal.com:$ ~ </p>
                   {ob.c}
                 </div>
@@ -38,7 +38,7 @@ export default function Gui({
                     <div className="help">
                       <h6>Command</h6>
                       <ul>
-                        {Cms.map((c, i) => (
+                        {CommandList.map((c, i) => (
                           <>
                             <li
                               className=" px-4 flex items-center py-2"
@@ -46,7 +46,7 @@ export default function Gui({
                             >
                               <FcRight /> {c.c}......{c.des} (
                               <span className=" contents">{i + 1}</span>/
-                              {Cms.length})
+                              {CommandList.length})
                             </li>
                           </>
                         ))}
@@ -59,7 +59,7 @@ export default function Gui({
               </div>
             ))}
         </div>
-        {chat != 0 && (
+        {chat !== 0 && (
           <div className="chat">
             <div>
               {chat.map((c) => (
@@ -71,10 +71,10 @@ export default function Gui({
             </div>
           </div>
         )}
-        {todo && (
+        {UserTodo && (
           <div className="todo">
             <div>
-              {todo.map((t, i) => (
+              {UserTodo.map((t, i) => (
                 <div key={Math.random()}>
                   <span>{i}</span>: {t.todo}
                 </div>
@@ -85,7 +85,7 @@ export default function Gui({
         {istodo && (
           <div className="todo">
             <div>
-              {todos.map((t, i) => (
+              {LocaleTodo.map((t, i) => (
                 <div key={Math.random()}>
                   {" "}
                   <span>{i}:</span> {t.todo}
@@ -96,7 +96,7 @@ export default function Gui({
         )}
         <div className="input flex items-center justify-start flex-row ">
           <label htmlFor="com" className="flex flex-row text-green-800">
-            <span className="text-green-400">{User.displayName}</span>
+            <span className="text-green-400">{UserData.displayName}</span>
             @raminal.com:$ <span className="px-2"> ~</span>
           </label>
           <div className="">
@@ -105,26 +105,26 @@ export default function Gui({
               id="com"
               autoFocus
               readOnly={StopInp ? "readOnly" : ""}
-              value={Comand}
+              value={UserComand}
               onKeyDown={(ev) => hanlde(ev)}
-              onChange={(event) => setComand(event.target.value)}
+              onChange={(event) => setUserComand(event.target.value)}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               aria-label="prompt"
             />
             <div className="autFeild flex flex-row gap-4">
-              {Comand
-                ? Cms.filter((c) => c.c.includes(Comand.toLowerCase())).map(
-                    (el) => (
-                      <button
-                        key={Math.random() * 2}
-                        onClick={(e) => setComand(e.target.textContent + " ")}
-                      >
-                        {el.c}
-                      </button>
-                    )
-                  )
+              {UserData
+                ? CommandList.filter((c) =>
+                    c.c.includes(UserData.toLowerCase())
+                  ).map((el) => (
+                    <button
+                      key={Math.random() * 2}
+                      onClick={(e) => setUserComand(e.target.textContent + " ")}
+                    >
+                      {el.c}
+                    </button>
+                  ))
                 : ""}
             </div>
           </div>

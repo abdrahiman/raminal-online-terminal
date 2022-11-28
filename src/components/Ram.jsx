@@ -1,70 +1,72 @@
 const Ram = (
   ev,
-  Comand,
-  setComand,
+  UserComand,
+  setUserComand,
   setAuto,
   history,
   setHistory,
-  setLast,
-  addEx,
-  Last,
+  setHistoryLast,
+  addCompilerData,
+  HistoryLast,
   chat,
-  setEx,
+  setCompilerData,
   auto,
   Compiler
 ) => {
   if (ev.key === "Enter") {
-    if (!Comand) return;
+    if (!UserComand) return;
     if (document.querySelector(".autFeild .gold")) {
-      setComand(document.querySelector(".autFeild .gold").textContent + " ");
+      setUserComand(
+        document.querySelector(".autFeild .gold").textContent + " "
+      );
       setAuto(-1);
       return;
     }
     setAuto(-1);
-    setHistory((prev) => [...prev, Comand]);
-    setComand("");
-    setLast(1);
+    setHistory((prev) => [...prev, UserComand]);
+    setUserComand("");
+    setHistoryLast(1);
     if (
       chat !== false &&
-      Comand.toLowerCase().includes("say") === false &&
-      Comand.toLowerCase().includes("chat close") === false
+      UserComand.toLowerCase().includes("say") === false &&
+      UserComand.toLowerCase().includes("chat close") === false
     ) {
-      addEx(
-        Comand,
+      addCompilerData(
+        UserComand,
         "please close the chat for acess to more commands by type 'chat close'"
       );
       return;
     }
-    Compiler(Comand);
+    Compiler(UserComand);
   } else if (ev.key === "l" && ev.ctrlKey) {
     ev.preventDefault();
-    setComand("");
-    setEx([]);
+    setUserComand("");
+    setCompilerData([]);
   } else if (ev.key === "ArrowUp") {
     ev.preventDefault();
-    if (!Comand) {
-      if (!history.length || Last > history.length) {
+    if (!UserComand) {
+      if (!history.length || HistoryLast > history.length) {
         return;
       }
-      let last = history.slice(-Last)[0];
-      setComand(last);
-      setLast(Last + 1);
+      let last = history.slice(-HistoryLast)[0];
+      setUserComand(last);
+      setHistoryLast(HistoryLast + 1);
     } else {
-      if (auto != 0) {
+      if (auto !== 0) {
         setAuto(auto - 1);
       }
     }
   } else if (ev.key === "ArrowDown") {
     ev.preventDefault();
-    if (!Comand) {
-      if (!history.length || Last <= 2) {
-        if (Last <= 2) {
-          setComand("");
+    if (!UserComand) {
+      if (!history.length || HistoryLast <= 2) {
+        if (HistoryLast <= 2) {
+          setUserComand("");
         }
         return;
       }
-      setComand(history.slice(-(Last - 2))[0]);
-      setLast(Last - 1);
+      setUserComand(history.slice(-(HistoryLast - 2))[0]);
+      setHistoryLast(HistoryLast - 1);
     } else {
       if (auto + 2 <= document.querySelectorAll(".autFeild button").length) {
         setAuto(auto + 1);
