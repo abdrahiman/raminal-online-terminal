@@ -8,7 +8,6 @@ import Bg3 from "../imgs/WallpaperDog-20557695.jpg";
 import Bg2 from "../imgs/WallpaperDog-20557575.jpg";
 import DiscContext from "../components/DiscDir";
 export default function Home() {
-  let { Tabs } = useContext(DiscContext);
   // let bgs = [Bg, Bg3, Bg2, Bg4, Bg1];
   // let [bg, setbg] = useState(Bg);
   // setInterval(() => setbg(bgs[Math.floor(Math.random() * bgs.length)]), 15000);

@@ -1,4 +1,4 @@
-import React, { useContCompilerDatat, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { LoginAcc, addAcc, auth, googleMe, app } from "./auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import {
@@ -14,11 +14,9 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
-import { motion } from "framer-motion";
 import Ram from "./Ram";
 import Gui from "./Gui";
 import DiscContext from "./DiscDir";
-import { useContext } from "react";
 
 const db = getFirestore(app);
 
@@ -27,18 +25,19 @@ const colTodo = collection(db, "todos");
 let q = query(colRef, orderBy("createdAt", "asc"), limit(50));
 export default function Terminal() {
   let [UserData, setUserData] = useState({ displayName: "...", uid: "geust" });
-  let qt = query(
-    colTodo,
-    where("user", "==", UserData.uid)
-    // orderBy("createdAt", "asc")
-  );
-  let { Tabs, addTab, addTabData, selectTab } = useContext(DiscContext);
+  let qt = query(colTodo, where("user", "==", UserData.uid));
+  let { Tabs, addTab, addTabData, selectTab, Id, deleteTab } =
+    useContext(DiscContext);
   let [history, setHistory] = useState([]);
   let [CompilerData, setCompilerData] = useState(Tabs[0].tab);
   let [UserComand, setUserComand] = useState("");
   let [HistoryLast, setHistoryLast] = useState(1);
   let [chat, setChat] = useState(false);
-  let [LocaleTodo, setLocaleTodo] = useState([]);
+  let [LocaleTodo, setLocaleTodo] = useState(
+    JSON.parse(localStorage.getItem("todos")) !== null
+      ? JSON.parse(localStorage.getItem("todos"))
+      : []
+  );
   let [istodo, setshowtodo] = useState(false);
   let [UserTodo, setUserTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
@@ -111,7 +110,15 @@ export default function Terminal() {
       c: "repo",
       des: "navigate to my github reposotory ......(repo) ",
     },
+    {
+      c: "delete tab",
+      des: "delete a tab......(delete tab number:2,0...) ",
+    },
   ]);
+  useEffect(
+    () => localStorage.setItem("todos", JSON.stringify(LocaleTodo)),
+    [LocaleTodo]
+  );
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -345,6 +352,15 @@ export default function Terminal() {
       } else {
         addCompilerData(v, "please enter a valid number");
       }
+    } else if (v.toLowerCase().includes("delete tab")) {
+      if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
+        let mes = deleteTab(v.split(" ")[2]);
+        setCompilerData([]);
+        if (typeof mes === "string") addCompilerData(v, mes);
+        else setCompilerData(mes || []);
+      } else {
+        addCompilerData(v, "please enter a valid number");
+      }
     }
     // space
     else if (v.toLowerCase().trim() === "google") {
@@ -428,6 +444,9 @@ export default function Terminal() {
       setUserComand={setUserComand}
       hanlde={hanlde}
       StopInp={StopInp}
+      Tabs={Tabs}
+      Id={Id}
+      Compiler={Compiler}
     />
   );
 }

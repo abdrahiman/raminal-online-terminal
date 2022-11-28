@@ -1,4 +1,6 @@
 import { FcRight } from "react-icons/fc";
+import Bg from "../imgs/WallpaperDog-20557717.jpg";
+import { motion } from "framer-motion";
 
 export default function Gui({
   UserData,
@@ -12,10 +14,34 @@ export default function Gui({
   setUserComand,
   hanlde,
   StopInp,
+  Tabs,
+  Id,
+  Compiler,
 }) {
   return (
     <div className="Tab">
+      <nav>
+        <div className="btns">
+          <button onClick={() => Compiler("add tab")}>add tab</button>
+          {Tabs.map((t) => (
+            <button
+              className={t.id === Id ? "gold" : ""}
+              onClick={(e) => Compiler("select tab" + " " + e.target.id)}
+              id={t.id}
+            >
+              Tab {t.id}
+            </button>
+          ))}
+        </div>
+      </nav>
       <div className="terminal" style={{ overflowY: "auto" }}>
+        <motion.div
+          className="bg"
+          animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+        >
+          <img src={Bg} alt="" />
+        </motion.div>
         <div className="comands">
           {CompilerData &&
             CompilerData.map((ob) => (

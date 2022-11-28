@@ -22,8 +22,27 @@ export function TabsProvider({ children }) {
   };
   let addTab = () => {
     setIds((prev) => [...prev, +Ids.slice(-1) + 1]);
-    console.log(Ids);
     setTabs((p) => [...p, { tab: [], id: +Ids.slice(-1) + 1 }]);
+    console.log(Ids);
+  };
+  let deleteTab = (id) => {
+    if (Ids.includes(+id)) {
+      if (+id == Id) {
+        return `please get out from this tab before the delete`;
+      }
+      setIds(Ids.filter((i) => i != id));
+      setTabs(Tabs.filter((el) => el.id != id));
+      let nids = [];
+      Ids.map((i) => {
+        if (i > +id) {
+          nids.push(i - 1);
+        } else if (i < +id) nids.push(i);
+      });
+      setIds(nids);
+      Tabs.map((el) => (el.id > +id ? (el.id = el.id - 1) : false));
+    } else {
+      return `this tab does not exist ,your tabs are ${Ids.join(" : ")}`;
+    }
   };
   let selectTab = (id) => {
     if (Ids.includes(+id)) {
@@ -36,7 +55,9 @@ export function TabsProvider({ children }) {
   };
 
   return (
-    <DiscContext.Provider value={{ Tabs, addTabData, Id, addTab, selectTab }}>
+    <DiscContext.Provider
+      value={{ Tabs, deleteTab, addTabData, Id, addTab, selectTab }}
+    >
       {children}
     </DiscContext.Provider>
   );
