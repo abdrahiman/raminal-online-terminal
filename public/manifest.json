@@ -1,15 +1,15 @@
 {
-  "short_name": "abderrahim portoflio",
-  "name": "abedrrahim aneddam portoflio",
+  "short_name": "Raminal",
+  "name": "Raminal",
   "icons": [
     {
-      "src": "Logo.png",
+      "src": "indigo-to-red-to-yellow.icns",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png"
+      "type": "image/icon"
     },
     {
-      "src": "Logo.png",
-      "type": "image/png",
+      "src": "indigo-to-red-to-yellow.icns",
+      "type": "image/icon",
       "sizes": "192x192"
     }
   ],

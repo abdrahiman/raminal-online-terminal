@@ -59,7 +59,7 @@ export default function Gui({
               </div>
             ))}
         </div>
-        {chat !== 0 && (
+        {chat != 0 && (
           <div className="chat">
             <div>
               {chat.map((c) => (
@@ -114,9 +114,9 @@ export default function Gui({
               aria-label="prompt"
             />
             <div className="autFeild flex flex-row gap-4">
-              {UserData
+              {UserComand
                 ? CommandList.filter((c) =>
-                    c.c.includes(UserData.toLowerCase())
+                    c.c.includes(UserComand.toLowerCase())
                   ).map((el) => (
                     <button
                       key={Math.random() * 2}

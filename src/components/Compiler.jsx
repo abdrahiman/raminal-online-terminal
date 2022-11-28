@@ -23,7 +23,7 @@ import { useContext } from "react";
 const db = getFirestore(app);
 
 const colRef = collection(db, "chat");
-const colTodo = collection(db, "LocaleTodo");
+const colTodo = collection(db, "todos");
 let q = query(colRef, orderBy("createdAt", "asc"), limit(50));
 export default function Terminal() {
   let [UserData, setUserData] = useState({ displayName: "...", uid: "geust" });
