@@ -4,12 +4,15 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getFirestore,
   limit,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 import { motion } from "framer-motion";
 import Ram from "./Ram";
@@ -22,6 +25,12 @@ const colRef = collection(db, "chat");
 const colTodo = collection(db, "todos");
 let q = query(colRef, orderBy("createdAt", "asc"), limit(50));
 export default function Terminal() {
+  let [User, setUser] = useState({ displayName: "...", uid: "geust" });
+  let qt = query(
+    colTodo,
+    where("user", "==", User.uid)
+    // orderBy("createdAt", "asc")
+  );
   let { Tabs, addTab, addTabData, selectTab } = useContext(DiscContext);
   let [history, setHistory] = useState([]);
   let [Ex, setEx] = useState(Tabs[0].tab);
@@ -32,9 +41,9 @@ export default function Terminal() {
   let [istodo, setshowtodo] = useState(false);
   let [todo, setTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
-  let [User, setUser] = useState({ displayName: "...", uid: "geust" });
+  let [StopInp, setInpStop] = useState(false);
   let [Cms] = useState([
-    { c: "auth", des: "return the username if is login.... (auth)" },
+    { c: "about", des: "return the username if is login.... (auth)" },
     {
       c: "do",
       des: "return a random activity to do if you boring (: ...... (do)",
@@ -126,22 +135,30 @@ export default function Terminal() {
   };
   let Compiler = async (v) => {
     setComand("Running ...");
+    setInpStop(true);
+    // space
     if (v.toLowerCase().trim() === "banner") {
       addEx(
         v,
         `
-  ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
-  ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
-  ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
+        ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
+        ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
+        ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
   ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
   ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
   ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`
       );
-    } else if (v.toLowerCase().trim() === "help") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "help") {
       addEx(v, "");
-    } else if (v.toLowerCase().trim() === "auth") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "auth") {
       addEx(v, User.displayName);
-    } else if (v.toLowerCase().includes("login")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("login")) {
       if (v.split(" ").length === 3) {
         let mes = await LoginAcc(v.split(" ")[1], v.split(" ")[2]);
         addEx(v, mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes);
@@ -151,7 +168,9 @@ export default function Terminal() {
           "⚠️ the syntacs is not correct. login (email.com) (Mypassword)"
         );
       }
-    } else if (v.toLowerCase().includes("join")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("join")) {
       if (v.split(" ").length === 3) {
         let mes = await addAcc(v.split(" ")[1], v.split(" ")[2]);
         addEx(v, mes.includes("Firebase") ? "⚠️ " + mes.slice(10) : mes);
@@ -161,30 +180,44 @@ export default function Terminal() {
           "⚠️ the syntacs is not correct. login (email.com) (Mypassword)"
         );
       }
-    } else if (v.toLowerCase().trim() === "signout") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "signout") {
       await signOut(auth);
       addEx(v, "you have signed Out");
       setUser({ displayName: "guest", uid: "geust" });
       setTodo(false);
-    } else if (v.toLowerCase().trim() === "chat") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "chat") {
       let GetData = async () => {
         setChat([{ message: "..." }]);
-        await onSnapshot(q, (snapshot) => {
-          let d = [];
-          snapshot.docs.map((doc) => {
-            return d.push({ ...doc.data(), id: doc.id });
+        try {
+          await onSnapshot(q, (snapshot) => {
+            let d = [];
+            snapshot.docs.map((doc) => {
+              return d.push({ ...doc.data(), id: doc.id });
+            });
+            setChat(d);
           });
-          setChat(d);
-        });
+        } catch (er) {
+          setEx(v, "there an erore please refrech");
+        }
       };
       GetData();
       addEx(v, "");
-    } else if (v.toLowerCase().trim() === "chat close") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "chat close") {
       setChat(false);
-    } else if (v.toLowerCase().trim() === "todos close") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "todos close") {
       setshowtodo(false);
       setTodo(false);
-    } else if (v.toLowerCase().includes("say")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("say")) {
       if (chat) {
         addDoc(colRef, {
           message: v.slice(3),
@@ -194,7 +227,9 @@ export default function Terminal() {
       } else {
         addEx(v, "please open the chat before send a message by type 'chat'");
       }
-    } else if (
+    }
+    // space
+    else if (
       v.toLowerCase().includes("todo") &&
       !v.toLowerCase().includes("delete todo") &&
       v.toLowerCase().trim() !== "todos"
@@ -218,46 +253,62 @@ export default function Terminal() {
       }
       addEx(v, "this todo is added");
       setComand("");
-    } else if (v.toLowerCase().includes("delete todo")) {
-      console.log(todos[parseInt(v.split(" ")[2])]);
-      if (
-        parseInt(v.split(" ")[2]) <= todos.length &&
-        typeof parseInt(v.split(" ")[2]) === "number"
-      ) {
-        settodos(todos.filter((e, i) => i !== parseInt(v.split(" ")[2])));
-        addEx(v, "this todo is deleted");
-        console.log(todos);
-      } else addEx(v, "this number is not valid");
-    } else if (v.toLowerCase().trim() === "todos") {
+    }
+    // space
+    else if (v.toLowerCase().includes("delete todo")) {
+      if (User.uid !== "geust") {
+        if (
+          parseInt(v.split(" ")[2]) <= todo.length &&
+          typeof parseInt(v.split(" ")[2]) === "number"
+        ) {
+          let docRef = doc(db, "todos", todo[+v.split(" ")[2]].id);
+          deleteDoc(docRef)
+            .then(() => addEx(v, "this todo is deleted"))
+            .catch((er) => addEx(v, er.message));
+        } else addEx(v, "this number is not valid");
+      } else {
+        if (
+          parseInt(v.split(" ")[2]) <= todos.length &&
+          typeof parseInt(v.split(" ")[2]) === "number"
+        ) {
+          settodos(todos.filter((e, i) => i !== parseInt(v.split(" ")[2])));
+          addEx(v, "this todo is deleted");
+          console.log(todos);
+        } else addEx(v, "this number is not valid");
+      }
+    }
+    // space
+    else if (v.toLowerCase().trim() === "todos") {
       if (User.uid !== "geust") {
         let GetData = async () => {
           setTodo([{ todo: "..." }]);
-          onSnapshot(colTodo, (snapshot) => {
+          if (todos.length !== 0) {
+            todos.map((t) => {
+              addDoc(colTodo, {
+                todo: t.todo,
+                createdAt: serverTimestamp(),
+                user: User.uid,
+              });
+            });
+          }
+          onSnapshot(qt, (snapshot) => {
             let d = [];
             snapshot.docs.map((doc) => {
               return d.push({ ...doc.data(), id: doc.id });
             });
-            if (todos.length !== 0) {
-              todos.map((t) => {
-                addDoc(colTodo, {
-                  todo: t.todo,
-                  createdAt: serverTimestamp(),
-                  user: User.uid,
-                });
-              });
-            }
             settodos([]);
-            setTodo(d.filter((t) => t.user == User.uid));
+            setTodo(d);
           });
         };
         GetData();
-        console.log("kk");
         addEx(v, "");
       } else {
         setshowtodo(true);
         addEx(v, "");
       }
-    } else if (v.toLowerCase().trim() === "do") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "do") {
       let res = await fetch("https://www.boredapi.com/api/activity")
         .then((data) => data.json())
         .catch((error) => {
@@ -266,10 +317,14 @@ export default function Terminal() {
           };
         });
       addEx(v, res.activity);
-    } else if (v.toLowerCase().trim() === "add tab") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "add tab") {
       addTab();
       addEx(v, "the tab was added");
-    } else if (v.toLowerCase().includes("select tab")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("select tab")) {
       if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
         let mes = selectTab(v.split(" ")[2]);
         setEx([]);
@@ -278,10 +333,14 @@ export default function Terminal() {
       } else {
         addEx(v, "please enter a valid number");
       }
-    } else if (v.toLowerCase().trim() === "google") {
+    }
+    // space
+    else if (v.toLowerCase().trim() === "google") {
       let mes = await googleMe();
       addEx(v, mes);
-    } else if (v.toLowerCase().includes("translate")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("translate")) {
       if (v.split(" ")[2] && v.split(" ")[1]) {
         window.open(
           `https://translate.google.com/?sl=auto&tl=${v.split(" ")[2]}&text=${
@@ -296,14 +355,16 @@ export default function Terminal() {
           v,
           "⚠️ the syntacs is incorrect. translate (text) (languaege: en,ar...)"
         );
-    } else {
+    }
+    // space
+    else {
       Cms.filter((c) => c.c.includes(v)).length !== 0
         ? Cms.filter((c) => c.c.includes(v))[0].c == v
           ? addEx(
               v,
               `the syntacs is incorrect: '${
                 Cms.filter((c) => c.c.includes(v))[0].des
-              } ⚠️'`
+              }' ⚠️`
             )
           : addEx(
               v,
@@ -313,6 +374,7 @@ export default function Terminal() {
             )
         : addEx(v, `Command not found: '${v}'. Try 'help' to get started. ⚠️`);
     }
+    setInpStop(false);
     setComand("");
   };
   let hanlde = (ev) => {
@@ -350,6 +412,7 @@ export default function Terminal() {
       Comand={Comand}
       setComand={setComand}
       hanlde={hanlde}
+      StopInp={StopInp}
     />
   );
 }

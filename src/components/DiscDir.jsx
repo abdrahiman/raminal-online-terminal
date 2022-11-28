@@ -3,18 +3,18 @@ import { createContext } from "react";
 
 let DiscContext = createContext();
 export function TabsProvider({ children }) {
-  let [Tabs, setTabs] = useState(
-    JSON.parse(localStorage.getItem("Tabs")) !== null
-      ? JSON.parse(localStorage.getItem("Tabs"))
-      : [{ tab: [], id: 0 }]
-  );
+  // let [Tabs, setTabs] = useState(
+  //   JSON.parse(localStorage.getItem("Tabs")) !== null
+  //     ? JSON.parse(localStorage.getItem("Tabs"))
+  //     : [{ tab: [], id: 0 }]
+  // );
+  let [Tabs, setTabs] = useState([{ tab: [], id: 0 }]);
   let [Ids, setIds] = useState([0]);
   let [Id, setId] = useState(0);
 
   // Storage
   useEffect(() => {
     localStorage.setItem("Tabs", JSON.stringify(Tabs));
-    console.table("i set", JSON.parse(localStorage.getItem("Tabs")));
   }, [Tabs]);
   let addTabData = (tab) => {
     localStorage.setItem("Tabs", JSON.stringify(Tabs));

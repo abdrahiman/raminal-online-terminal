@@ -11,60 +11,60 @@ export default function Gui({
   Comand,
   setComand,
   hanlde,
+  StopInp,
 }) {
   return (
     <div className="Tab">
       <div className="terminal" style={{ overflowY: "auto" }}>
         <div className="comands">
-          {Ex
-            ? Ex.map((ob) => (
-                <>
-                  <div key={Math.random()}>
-                    <span>{User.displayName}</span>
-                    <p className="text-green-700 inline">@raminal.com:$ ~ </p>
-                    {ob.c}
-                  </div>
-                  <div
-                    style={{
-                      // fontSize: "18px",
-                      letterSpacing: "0.1rem",
-                      paddingLeft: "0.4rem",
-                    }}
-                    key={Math.random()}
-                  >
-                    {" "}
-                    {ob.c.trim() === "help" ? (
-                      <div className="help">
-                        <h6>Command</h6>
-                        <ul>
-                          {Cms.map((c, i) => (
-                            <>
-                              <li
-                                className=" px-4 flex items-center py-2"
-                                key={Math.random()}
-                              >
-                                <FcRight /> {c.c}......{c.des} (
-                                <span className=" contents">{i + 1}</span>/
-                                {Cms.length})
-                              </li>
-                            </>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : (
-                      ob.res
-                    )}
-                  </div>
-                </>
-              ))
-            : ""}
+          {Ex &&
+            Ex.map((ob) => (
+              <div key={Math.random()}>
+                <div key={Math.random()}>
+                  <span>{User.displayName}</span>
+                  <p className="text-green-700 inline">@raminal.com:$ ~ </p>
+                  {ob.c}
+                </div>
+                <div
+                  style={{
+                    // fontSize: "18px",
+                    letterSpacing: "0.1rem",
+                    paddingLeft: "0.4rem",
+                  }}
+                  key={Math.random()}
+                >
+                  {" "}
+                  {ob.c.trim() === "help" ? (
+                    <div className="help">
+                      <h6>Command</h6>
+                      <ul>
+                        {Cms.map((c, i) => (
+                          <>
+                            <li
+                              className=" px-4 flex items-center py-2"
+                              key={Math.random()}
+                            >
+                              <FcRight /> {c.c}......{c.des} (
+                              <span className=" contents">{i + 1}</span>/
+                              {Cms.length})
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    ob.res
+                  )}
+                </div>
+              </div>
+            ))}
         </div>
         {chat != 0 && (
           <div className="chat">
             <div>
               {chat.map((c) => (
                 <div key={Math.random()}>
-                  <span className="author">{c.author || c.user}</span> {" : "}
+                  <span className="user">{c.user}</span> {" : "}
                   {c.message}
                 </div>
               ))}
@@ -104,6 +104,7 @@ export default function Gui({
               type="text"
               id="com"
               autoFocus
+              readOnly={StopInp ? "readOnly" : ""}
               value={Comand}
               onKeyDown={(ev) => hanlde(ev)}
               onChange={(event) => setComand(event.target.value)}
@@ -114,11 +115,16 @@ export default function Gui({
             />
             <div className="autFeild flex flex-row gap-4">
               {Comand
-                ? Cms.filter((c) => c.c.includes(Comand.toLowerCase()))
-                    .sort()
-                    .map((el) => (
-                      <button key={Math.random() * 2}>{el.c}</button>
-                    ))
+                ? Cms.filter((c) => c.c.includes(Comand.toLowerCase())).map(
+                    (el) => (
+                      <button
+                        key={Math.random() * 2}
+                        onClick={(e) => setComand(e.target.textContent + " ")}
+                      >
+                        {el.c}
+                      </button>
+                    )
+                  )
                 : ""}
             </div>
           </div>
