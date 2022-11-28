@@ -3,12 +3,12 @@
   "name": "Raminal",
   "icons": [
     {
-      "src": "indigo-to-red-to-yellow.icns",
+      "src": "indigo-to-red-to-yellow.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/icon"
     },
     {
-      "src": "indigo-to-red-to-yellow.icns",
+      "src": "indigo-to-red-to-yellow.ico",
       "type": "image/icon",
       "sizes": "192x192"
     }
