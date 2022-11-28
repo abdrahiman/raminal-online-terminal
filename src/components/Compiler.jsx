@@ -17,7 +17,8 @@ import {
 import { motion } from "framer-motion";
 import Ram from "./Ram";
 import Gui from "./Gui";
-import DiscContCompilerDatat from "./DiscDir";
+import DiscContext from "./DiscDir";
+import { useContext } from "react";
 
 const db = getFirestore(app);
 
@@ -31,9 +32,7 @@ export default function Terminal() {
     where("user", "==", UserData.uid)
     // orderBy("createdAt", "asc")
   );
-  let { Tabs, addTab, addTabData, selectTab } = useContCompilerDatat(
-    DiscContCompilerDatat
-  );
+  let { Tabs, addTab, addTabData, selectTab } = useContext(DiscContext);
   let [history, setHistory] = useState([]);
   let [CompilerData, setCompilerData] = useState(Tabs[0].tab);
   let [UserComand, setUserComand] = useState("");
