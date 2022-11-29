@@ -28,6 +28,7 @@ export default function Gui({
               className={t.id === Id ? "gold" : ""}
               onClick={(e) => Compiler("select tab" + " " + e.target.id)}
               id={t.id}
+              key={t.id}
             >
               Tab {t.id}
             </button>
@@ -48,7 +49,7 @@ export default function Gui({
               <div key={Math.random()}>
                 <div key={Math.random()}>
                   <span>{UserData.displayName}</span>
-                  <p className="text-green-700 inline">@raminal.com:$ ~ </p>
+                  <p className="inline">@raminal.com:$ ~ </p>
                   {ob.c}
                 </div>
                 <div
@@ -85,7 +86,8 @@ export default function Gui({
               </div>
             ))}
         </div>
-        {chat != 0 && (
+        {/* {chat != 0 && ( */}
+        {chat && (
           <div className="chat">
             <div>
               {chat.map((c) => (
@@ -121,8 +123,8 @@ export default function Gui({
           </div>
         )}
         <div className="input flex items-center justify-start flex-row ">
-          <label htmlFor="com" className="flex flex-row text-green-800">
-            <span className="text-green-400">{UserData.displayName}</span>
+          <label htmlFor="com" className="flex flex-row">
+            <span className="">{UserData.displayName}</span>
             @raminal.com:$ <span className="px-2"> ~</span>
           </label>
           <div className="">

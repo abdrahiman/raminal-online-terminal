@@ -44,7 +44,7 @@ const Ram = (
     setCompilerData([]);
   } else if (ev.key === "ArrowUp") {
     ev.preventDefault();
-    if (!UserComand) {
+    if (document.querySelectorAll(".autFeild button").length === 0) {
       if (!history.length || HistoryLast > history.length) {
         return;
       }
@@ -58,7 +58,7 @@ const Ram = (
     }
   } else if (ev.key === "ArrowDown") {
     ev.preventDefault();
-    if (!UserComand) {
+    if (document.querySelectorAll(".autFeild button").length === 0) {
       if (!history.length || HistoryLast <= 2) {
         if (HistoryLast <= 2) {
           setUserComand("");

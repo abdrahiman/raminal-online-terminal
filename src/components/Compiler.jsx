@@ -28,8 +28,23 @@ export default function Terminal() {
   let qt = query(colTodo, where("user", "==", UserData.uid));
   let { Tabs, addTab, addTabData, selectTab, Id, deleteTab } =
     useContext(DiscContext);
-  let [history, setHistory] = useState([]);
-  let [CompilerData, setCompilerData] = useState(Tabs[0].tab);
+  let [history, setHistory] = useState(
+    JSON.parse(localStorage.getItem("history")) !== null
+      ? JSON.parse(localStorage.getItem("history"))
+      : ["banner"]
+  );
+  let [CompilerData, setCompilerData] = useState([
+    {
+      c: "banner",
+      res: `
+        ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
+        ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
+        ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
+  ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
+  ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
+  ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`,
+    },
+  ]);
   let [UserComand, setUserComand] = useState("");
   let [HistoryLast, setHistoryLast] = useState(1);
   let [chat, setChat] = useState(false);
@@ -119,6 +134,10 @@ export default function Terminal() {
     () => localStorage.setItem("todos", JSON.stringify(LocaleTodo)),
     [LocaleTodo]
   );
+  useEffect(
+    () => localStorage.setItem("history", JSON.stringify(LocaleTodo)),
+    [history]
+  );
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -151,9 +170,9 @@ export default function Terminal() {
         ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
         ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
         ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
-  ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
-  ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
-  ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`
+        ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
+        ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
+        ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`
       );
     }
     // space
@@ -316,7 +335,12 @@ export default function Terminal() {
               return d.push({ ...doc.data(), id: doc.id });
             });
             setLocaleTodo([]);
-            setUserTodo(d);
+            setshowtodo(false);
+            setUserTodo(
+              d.sort(function (a, b) {
+                return a.createdAt.seconds - b.createdAt.seconds;
+              })
+            );
           });
         };
         GetData();
@@ -352,7 +376,9 @@ export default function Terminal() {
       } else {
         addCompilerData(v, "please enter a valid number");
       }
-    } else if (v.toLowerCase().includes("delete tab")) {
+    }
+    // space
+    else if (v.toLowerCase().includes("delete tab")) {
       if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
         let mes = deleteTab(v.split(" ")[2]);
         setCompilerData([]);
@@ -387,7 +413,7 @@ export default function Terminal() {
     // space
     else {
       CommandList.filter((c) => c.c.includes(v)).length !== 0
-        ? CommandList.filter((c) => c.c.includes(v))[0].c == v
+        ? CommandList.filter((c) => c.c.includes(v))[0].c === v
           ? addCompilerData(
               v,
               `the syntacs is incorrect: '${
