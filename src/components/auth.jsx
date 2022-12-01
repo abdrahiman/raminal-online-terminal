@@ -58,5 +58,12 @@ let LoginAcc = async (e, p) => {
     .catch((error) => (mes = error.message));
   return mes;
 };
+let changeName = async (v) => {
+  let mes = "";
+  await updateProfile(auth.currentUser, { displayName: v })
+    .then(() => (mes = "the username is changed sucessfully"))
+    .catch((err) => (mes = err.message));
+  return mes;
+};
 
-export { app, auth, addAcc, LoginAcc, googleMe };
+export { app, auth, addAcc, LoginAcc, googleMe, changeName };

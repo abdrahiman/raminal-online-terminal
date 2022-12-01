@@ -20,6 +20,7 @@
   justify-content: center;
   overflow: hidden;
   padding: 1.3rem 3.5rem;
+  padding-bottom: 6%;
   @media ($m-md) {
     padding: 1rem 2rem;
     font-size: 14px;
@@ -36,44 +37,98 @@
   }
   color: 17px;
   box-sizing: border-box;
+
   nav {
     width: 100%;
-    height: 2.5rem;
+    min-height: 2.6rem;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    border-radius: 20px 20px 0px 0px;
-    background-color: white;
+    justify-content: flex-start;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #323232e3;
     .btns {
+      padding-left: 1rem;
+      padding-right: 0.3rem;
       display: flex;
       flex-direction: row;
+      font-weight: 500;
       align-items: center;
+      overflow-x: auto;
       justify-content: flex-start;
       gap: 1rem;
-      button {
+      width: 100%;
+      height: 100%;
+      button.plus {
+        min-width: 3rem;
+        height: 2rem;
+        background: rgb(150, 150, 150);
+        border-radius: 11px;
         cursor: pointer;
-        min-width: 4rem;
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+      > div {
+        cursor: pointer;
+        &.gold {
+          background-color: black !important;
+        }
+        min-width: 11rem;
+        text-align: start !important;
+        height: 2.1rem;
+        padding-left: 1rem;
+        background: #525252c2;
+        position: relative;
+        border-radius: 5px;
+        &:hover {
+          background: #747474c2;
+        }
+        .delt {
+          width: 1.2rem;
+          border-radius: 5px;
+          z-index: 3;
+          height: 1.2rem;
+          position: absolute;
+          right: 0.6rem;
+          &:hover {
+            background-color: rgba(80, 77, 77, 0.705);
+          }
+        }
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+          font-size: 1.3rem;
+          color: white;
+          path {
+            border: 1px white solid;
+          }
+        }
       }
     }
   }
   .gold {
     background-color: rgb(62, 62, 230);
+    color: white;
   }
   .terminal {
     @media ($m-md) {
       padding: 0.7rem;
     }
     .bg {
-      position: absolute;
       width: 100%;
       height: 100%;
       background: transparent;
-      top: 0;
-      left: 0;
-      z-index: -1;
+      z-index: -3;
       filter: blur(17px);
+      position: fixed;
+      padding: 1.3rem 3.5rem;
+      padding-bottom: 1.3rem;
+      padding-bottom: 6%;
+      color: 17px;
     }
+
     color: white;
     position: relative;
     height: 100%;
@@ -81,18 +136,23 @@
       0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 2rem;
     border-radius: 0px 0px 20px 20px;
-    background-color: rgba(0, 0, 0, 0.36);
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 94%;
     .comands {
-      svg g {
-        fill: green;
-      }
       span {
-        color: rgb(74, 222, 128);
-        font-weight: 500;
+        color: black;
+        font-weight: 800;
+      }
+      svg {
+        color: rgb(62, 62, 230);
       }
     }
-    width: 100%;
     .input > div {
+      span {
+        color: black;
+        font-weight: 800;
+      }
       width: 100%;
       max-width: 100%;
       height: 3rem;
@@ -131,4 +191,56 @@
       }
     }
   }
+  // &#light {
+  //   color: black !important;
+  //   nav {
+  //     background-color: white;
+  //     color: black;
+  //     .gold{
+  //           background-color: rgb(62, 62, 230);
+  //   color: white;
+  //     }
+  //     .btns>div{
+  //       background-color: lightblue;
+  //     }
+  //   }
+  //   .terminal {
+  //     background-color: rgba(255, 255, 255, 0.21);
+  //     color: black;
+  //   }
+  // }
 }
+
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px yellow;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: red;
+  outline: 1px solid blue;
+}
+/* width */
+// nav::-webkit-scrollbar {
+//   width: 8px;
+// }
+// // /* Track */
+// nav::-webkit-scrollbar-track {
+//   border-radius: 15px;
+//   // background: rgba(196, 196, 196, 0.842);
+//   background: red;
+// }
+
+// // /* Handle */
+// nav::-webkit-scrollbar-thumb {
+//   border-radius: 15px;
+//   padding-right: 4px;
+//   background: rgb(19, 19, 19);
+// }
+
+// // /* Handle on hover */
+// nav::-webkit-scrollbar-thumb:hover {
+//   background: black;
+// }

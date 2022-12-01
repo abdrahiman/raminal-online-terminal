@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { LoginAcc, addAcc, auth, googleMe, app } from "./auth";
+import { LoginAcc, addAcc, auth, googleMe, app, changeName } from "./auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import {
   addDoc,
@@ -40,9 +40,9 @@ export default function Terminal() {
         ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
         ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
         ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
-  ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
-  ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
-  ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`,
+        ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
+        ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
+        ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`,
     },
   ]);
   let [UserComand, setUserComand] = useState("");
@@ -57,11 +57,16 @@ export default function Terminal() {
   let [UserTodo, setUserTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
   let [StopInp, setInpStop] = useState(false);
+
   let [CommandList] = useState([
     { c: "auth", des: "return the username if is login.... (auth)" },
     {
       c: "do",
       des: "return a random activity to do if you boring (: ...... (do)",
+    },
+    {
+      c: "change name",
+      des: "change the username if you login ...... (change name ahmad,adam...)",
     },
     {
       c: "delete todo",
@@ -381,11 +386,19 @@ export default function Terminal() {
     else if (v.toLowerCase().includes("delete tab")) {
       if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
         let mes = deleteTab(v.split(" ")[2]);
-        setCompilerData([]);
         if (typeof mes === "string") addCompilerData(v, mes);
         else setCompilerData(mes || []);
       } else {
-        addCompilerData(v, "please enter a valid number");
+        addCompilerData(v, v.split(" ")[2] + "is not a valid number");
+      }
+    }
+    // space
+    else if (v.toLowerCase().includes("change name")) {
+      if (v.trim().split(" ")[2] && UserData.uid !== "guest") {
+        let mes = await changeName(v.trim().split(" ")[2]);
+        addCompilerData(v, mes);
+      } else {
+        addCompilerData(v, "this name is unvalid");
       }
     }
     // space

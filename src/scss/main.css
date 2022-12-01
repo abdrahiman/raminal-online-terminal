@@ -124,6 +124,7 @@ a:hover {
   justify-content: center;
   overflow: hidden;
   padding: 1.3rem 3.5rem;
+  padding-bottom: 6%;
   color: 17px;
   box-sizing: border-box;
 }
@@ -147,27 +148,77 @@ a:hover {
 }
 .Tab nav {
   width: 100%;
-  height: 2.5rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px 20px 0px 0px;
-  background-color: white;
-}
-.Tab nav .btns {
+  min-height: 2.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 1rem;
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgba(50, 50, 50, 0.8901960784);
 }
-.Tab nav .btns button {
+.Tab nav .btns {
+  padding-left: 1rem;
+  padding-right: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  align-items: center;
+  overflow-x: auto;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+.Tab nav .btns button.plus {
+  min-width: 3rem;
+  height: 2rem;
+  background: rgb(150, 150, 150);
+  border-radius: 11px;
   cursor: pointer;
-  min-width: 4rem;
+}
+.Tab nav .btns button.plus svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.Tab nav .btns > div {
+  cursor: pointer;
+  min-width: 11rem;
+  text-align: start !important;
+  height: 2.1rem;
+  padding-left: 1rem;
+  background: rgba(82, 82, 82, 0.7607843137);
+  position: relative;
+  border-radius: 5px;
+}
+.Tab nav .btns > div.gold {
+  background-color: black !important;
+}
+.Tab nav .btns > div:hover {
+  background: rgba(116, 116, 116, 0.7607843137);
+}
+.Tab nav .btns > div .delt {
+  width: 1.2rem;
+  border-radius: 5px;
+  z-index: 3;
+  height: 1.2rem;
+  position: absolute;
+  right: 0.6rem;
+}
+.Tab nav .btns > div .delt:hover {
+  background-color: rgba(80, 77, 77, 0.705);
+}
+.Tab nav .btns > div svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.3rem;
+  color: white;
+}
+.Tab nav .btns > div svg path {
+  border: 1px white solid;
 }
 .Tab .gold {
   background-color: rgb(62, 62, 230);
+  color: white;
 }
 .Tab .terminal {
   color: white;
@@ -176,8 +227,9 @@ a:hover {
   box-shadow: 9px 9px 9px 9px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 2rem;
   border-radius: 0px 0px 20px 20px;
-  background-color: rgba(0, 0, 0, 0.36);
+  background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
+  height: 94%;
 }
 @media (max-width: 767px) {
   .Tab .terminal {
@@ -185,27 +237,33 @@ a:hover {
   }
 }
 .Tab .terminal .bg {
-  position: absolute;
   width: 100%;
   height: 100%;
   background: transparent;
-  top: 0;
-  left: 0;
-  z-index: -1;
+  z-index: -3;
   filter: blur(17px);
-}
-.Tab .terminal .comands svg g {
-  fill: green;
+  position: fixed;
+  padding: 1.3rem 3.5rem;
+  padding-bottom: 1.3rem;
+  padding-bottom: 6%;
+  color: 17px;
 }
 .Tab .terminal .comands span {
-  color: rgb(74, 222, 128);
-  font-weight: 500;
+  color: black;
+  font-weight: 800;
+}
+.Tab .terminal .comands svg {
+  color: rgb(62, 62, 230);
 }
 .Tab .terminal .input > div {
   width: 100%;
   max-width: 100%;
   height: 3rem;
   position: relative;
+}
+.Tab .terminal .input > div span {
+  color: black;
+  font-weight: 800;
 }
 .Tab .terminal .input > div .autFeild {
   position: absolute;
@@ -242,4 +300,19 @@ a:hover {
 .Tab .terminal .todo .author,
 .Tab .terminal .help .author {
   color: rgb(74, 222, 128);
-}/*# sourceMappingURL=main.css.map */
+}
+
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px yellow;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: red;
+  outline: 1px solid blue;
+}
+
+/* width *//*# sourceMappingURL=main.css.map */

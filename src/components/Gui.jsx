@@ -1,4 +1,6 @@
 import { FcRight } from "react-icons/fc";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { IoCloseOutline } from "react-icons/io5";
 import Bg from "../imgs/WallpaperDog-20557717.jpg";
 import { motion } from "framer-motion";
 
@@ -22,16 +24,37 @@ export default function Gui({
     <div className="Tab">
       <nav>
         <div className="btns">
-          <button onClick={() => Compiler("add tab")}>add tab</button>
+          <button
+            className="plus flex items-center justify-center"
+            onClick={() => Compiler("add tab")}
+          >
+            <AiFillPlusCircle />
+          </button>
           {Tabs.map((t) => (
-            <button
-              className={t.id === Id ? "gold" : ""}
-              onClick={(e) => Compiler("select tab" + " " + e.target.id)}
+            <div
+              className={
+                t.id === Id
+                  ? "gold flex items-center flex-row justify-between px-2"
+                  : "flex items-center flex-row justify-between px-2"
+              }
               id={t.id}
+              onClick={(e) => Compiler("select tab " + e.target.id)}
               key={t.id}
             >
-              Tab {t.id}
-            </button>
+              <button className="w-full h-full  pointer-events-none">
+                Tab {t.id}
+              </button>
+              {t.id != 0 && (
+                <button
+                  className="delt flex items-center justify-center"
+                  onClick={(ev) =>
+                    Compiler("delete tab " + ev.target.parentNode.id)
+                  }
+                >
+                  <IoCloseOutline className=" pointer-events-none" />
+                </button>
+              )}
+            </div>
           ))}
         </div>
       </nav>
@@ -53,11 +76,12 @@ export default function Gui({
                   {ob.c}
                 </div>
                 <div
-                  style={{
-                    // fontSize: "18px",
-                    letterSpacing: "0.1rem",
-                    paddingLeft: "0.4rem",
-                  }}
+                  className="px-2"
+                  style={
+                    ob.c.trim() === "banner"
+                      ? { width: "80%", letterSpacing: "0.2rem" }
+                      : {}
+                  }
                   key={Math.random()}
                 >
                   {" "}

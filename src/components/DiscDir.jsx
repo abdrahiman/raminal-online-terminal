@@ -27,8 +27,8 @@ export function TabsProvider({ children }) {
   };
   let deleteTab = (id) => {
     if (Ids.includes(+id)) {
-      if (+id == Id) {
-        return `please get out from this tab before the delete`;
+      if (+id == 0) {
+        return `you can delete the root tab`;
       }
       setIds(Ids.filter((i) => i != id));
       setTabs(Tabs.filter((el) => el.id != id));
@@ -39,6 +39,7 @@ export function TabsProvider({ children }) {
         } else if (i < +id) nids.push(i);
       });
       setIds(nids);
+      if (+id === Id) setId(+id - 1);
       Tabs.map((el) => (el.id > +id ? (el.id = el.id - 1) : false));
     } else {
       return `this tab does not exist ,your tabs are ${Ids.join(" : ")}`;
