@@ -8,10 +8,6 @@ import Bg3 from "../imgs/WallpaperDog-20557695.jpg";
 import Bg2 from "../imgs/WallpaperDog-20557575.jpg";
 import DiscContext from "../components/DiscDir";
 export default function Home() {
-  // let bgs = [Bg, Bg3, Bg2, Bg4, Bg1];
-  // let [bg, setbg] = useState(Bg);
-  // setInterval(() => setbg(bgs[Math.floor(Math.random() * bgs.length)]), 15000);
-
   return (
     <>
       <motion.div
@@ -19,7 +15,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
       >
-        <img src={Bg} alt="" />
+        <img src={Bg4} alt="" />
       </motion.div>
       {/* {Tabs.map((t) => (
         <button>{t.id}</button>

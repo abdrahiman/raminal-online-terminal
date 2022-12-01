@@ -44,7 +44,7 @@ export default function Gui({
               <button className="w-full h-full  pointer-events-none">
                 Tab {t.id}
               </button>
-              {t.id != 0 && (
+              {t.id !== 0 && (
                 <button
                   className="delt flex items-center justify-center"
                   onClick={(ev) =>
@@ -59,13 +59,11 @@ export default function Gui({
         </div>
       </nav>
       <div className="terminal" style={{ overflowY: "auto" }}>
-        <motion.div
+        {/* <div
           className="bg"
-          animate={{ opacity: 1 }}
-          initial={{ opacity: 0 }}
         >
           <img src={Bg} alt="" />
-        </motion.div>
+        </div> */}
         <div className="comands">
           {CompilerData &&
             CompilerData.map((ob) => (
@@ -110,7 +108,6 @@ export default function Gui({
               </div>
             ))}
         </div>
-        {/* {chat != 0 && ( */}
         {chat && (
           <div className="chat">
             <div>

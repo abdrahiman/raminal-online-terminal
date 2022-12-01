@@ -123,8 +123,8 @@ a:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 1.3rem 3.5rem;
-  padding-bottom: 6%;
+  padding: 1.3rem 4rem;
+  padding-bottom: 4%;
   color: 17px;
   box-sizing: border-box;
 }
@@ -151,10 +151,10 @@ a:hover {
   min-height: 2.6rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: end;
   justify-content: flex-start;
   border-radius: 10px 10px 0px 0px;
-  background-color: rgba(50, 50, 50, 0.8901960784);
+  background-color: #5542d3;
 }
 .Tab nav .btns {
   padding-left: 1rem;
@@ -170,10 +170,10 @@ a:hover {
   height: 100%;
 }
 .Tab nav .btns button.plus {
-  min-width: 3rem;
+  min-width: 2.8rem;
   height: 2rem;
-  background: rgb(150, 150, 150);
-  border-radius: 11px;
+  background: rgb(243, 243, 243);
+  border-radius: 5px;
   cursor: pointer;
 }
 .Tab nav .btns button.plus svg {
@@ -182,19 +182,26 @@ a:hover {
 }
 .Tab nav .btns > div {
   cursor: pointer;
+  transition: 0.5s background-color ease-out;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
+  height: 2.4rem;
   min-width: 11rem;
-  text-align: start !important;
-  height: 2.1rem;
   padding-left: 1rem;
-  background: rgba(82, 82, 82, 0.7607843137);
   position: relative;
-  border-radius: 5px;
+  text-align: start !important;
 }
 .Tab nav .btns > div.gold {
   background-color: black !important;
+  border-top: white 2px solid;
+}
+.Tab nav .btns > div.gold svg {
+  color: white;
 }
 .Tab nav .btns > div:hover {
-  background: rgba(116, 116, 116, 0.7607843137);
+  background: hsla(0deg, 0%, 53.3%, 0.76);
+  border-top: white 2px solid;
 }
 .Tab nav .btns > div .delt {
   width: 1.2rem;
@@ -211,59 +218,46 @@ a:hover {
   width: 1.5rem;
   height: 1.5rem;
   font-size: 1.3rem;
-  color: white;
+  color: black;
 }
 .Tab nav .btns > div svg path {
-  border: 1px white solid;
+  border: 1px black solid;
 }
 .Tab .gold {
-  background-color: rgb(62, 62, 230);
+  background-color: #4b35d8;
   color: white;
 }
 .Tab .terminal {
   color: white;
   position: relative;
-  height: 100%;
   box-shadow: 9px 9px 9px 9px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 2rem;
   border-radius: 0px 0px 20px 20px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgb(0, 0, 0);
   width: 100%;
-  height: 94%;
+  height: 100%;
 }
 @media (max-width: 767px) {
   .Tab .terminal {
     padding: 0.7rem;
   }
 }
-.Tab .terminal .bg {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: -3;
-  filter: blur(17px);
-  position: fixed;
-  padding: 1.3rem 3.5rem;
-  padding-bottom: 1.3rem;
-  padding-bottom: 6%;
-  color: 17px;
-}
 .Tab .terminal .comands span {
-  color: black;
+  color: #5542d3;
   font-weight: 800;
 }
 .Tab .terminal .comands svg {
-  color: rgb(62, 62, 230);
+  color: #5542d3;
+}
+.Tab .terminal .input span {
+  color: #5542d3;
+  font-weight: 800;
 }
 .Tab .terminal .input > div {
   width: 100%;
   max-width: 100%;
   height: 3rem;
   position: relative;
-}
-.Tab .terminal .input > div span {
-  color: black;
-  font-weight: 800;
 }
 .Tab .terminal .input > div .autFeild {
   position: absolute;
@@ -291,7 +285,7 @@ a:hover {
   width: -moz-fit-content;
   width: fit-content;
   min-width: 100%;
-  background: #000;
+  background: #5542d3;
   padding: 1.2rem 1rem;
   border-radius: 13px;
   margin-top: 0.5rem;
@@ -299,7 +293,7 @@ a:hover {
 .Tab .terminal .chat .author,
 .Tab .terminal .todo .author,
 .Tab .terminal .help .author {
-  color: rgb(74, 222, 128);
+  color: black;
 }
 
 *::-webkit-scrollbar {
