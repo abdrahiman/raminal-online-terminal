@@ -37,16 +37,15 @@
   }
   color: 17px;
   box-sizing: border-box;
-
   nav {
     width: 100%;
     min-height: 2.6rem;
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: flex-end;
     justify-content: flex-start;
     border-radius: 10px 10px 0px 0px;
-    background-color: #5542d3;
+    background-color: white;
     .btns {
       padding-left: 1rem;
       padding-right: 0.3rem;
@@ -73,15 +72,17 @@
       }
       > div {
         cursor: pointer;
-        transition: 0.5s background-color ease-out;
+        transition: 0.3s background-color ease-out;
         &.gold {
-          background-color: black !important;
-          border-top: white 2px solid;
+          background-color: black;
+          border-top: #715df1 3px solid;
           svg {
             color: white;
           }
         }
         background-color: white;
+        border: black 2px solid;
+        border-bottom: none;
         border-radius: 5px 5px 0px 0px;
         cursor: pointer;
         height: 2.4rem;
@@ -91,7 +92,7 @@
         text-align: start !important;
         &:hover {
           background: hsla(0, 0%, 53.3%, 0.76);
-          border-top: white 2px solid;
+          border-top: #715df1 3px solid;
         }
         .delt {
           width: 1.2rem;
@@ -182,29 +183,55 @@
       padding: 1.2rem 1rem;
       border-radius: 13px;
       margin-top: 0.5rem;
+      span {
+        color: black;
+      }
       .author {
         color: black;
       }
     }
   }
-  // &#light {
-  //   color: black !important;
-  //   nav {
-  //     background-color: white;
-  //     color: black;
-  //     .gold{
-  //           background-color: rgb(62, 62, 230);
-  //   color: white;
-  //     }
-  //     .btns>div{
-  //       background-color: lightblue;
-  //     }
-  //   }
-  //   .terminal {
-  //     background-color: rgba(255, 255, 255, 0.21);
-  //     color: black;
-  //   }
-  // }
+  &#light {
+    nav {
+      .btns > div {
+        &.gold {
+          background-color: white !important;
+          border-top: #5542d3 2px solid;
+          color: black;
+          svg {
+            color: black;
+          }
+        }
+        border-color: white;
+        &:hover {
+          border-top-color: #5542d3;
+          background: hsla(0, 0%, 53.3%, 0.76);
+        }
+        background-color: black;
+        color: white;
+      }
+      background-color: black;
+      .plus {
+        background-color: white;
+        svg {
+          color: black;
+        }
+      }
+    }
+    .terminal {
+      background-color: white;
+      color: black;
+      box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.66);
+      input {
+        color: black;
+      }
+      .chat,
+      .todo,
+      .help {
+        color: white;
+      }
+    }
+  }
 }
 
 *::-webkit-scrollbar {

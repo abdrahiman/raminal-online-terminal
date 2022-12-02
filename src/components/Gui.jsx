@@ -15,13 +15,14 @@ export default function Gui({
   UserComand,
   setUserComand,
   hanlde,
+  isDark,
   StopInp,
   Tabs,
   Id,
   Compiler,
 }) {
   return (
-    <div className="Tab">
+    <div className="Tab" id={isDark ? "" : "light"}>
       <nav>
         <div className="btns">
           <button

@@ -57,6 +57,7 @@ export default function Terminal() {
   let [UserTodo, setUserTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
   let [StopInp, setInpStop] = useState(false);
+  let [isDark, setDark] = useState(false);
 
   let [CommandList] = useState([
     { c: "auth", des: "return the username if is login.... (auth)" },
@@ -133,6 +134,10 @@ export default function Terminal() {
     {
       c: "delete tab",
       des: "delete a tab......(delete tab number:2,0...) ",
+    },
+    {
+      c: "theme",
+      des: "change the theme......(theme dark/light) ",
     },
   ]);
   useEffect(
@@ -238,7 +243,7 @@ export default function Terminal() {
             setChat(d);
           });
         } catch (er) {
-          setCompilerData(v, "there an erore please refrech");
+          setCompilerData(v, "there an erore please refrech the page");
         }
       };
       GetData();
@@ -316,7 +321,6 @@ export default function Terminal() {
             LocaleTodo.filter((e, i) => i !== parseInt(v.split(" ")[2]))
           );
           addCompilerData(v, "this todo is deleted");
-          console.log(LocaleTodo);
         } else addCompilerData(v, "this number is not valid");
       }
     }
@@ -372,6 +376,22 @@ export default function Terminal() {
       addCompilerData(v, "the tab was added");
     }
     // space
+    else if (v.toLowerCase().includes("theme")) {
+      if (v.split(" ")[1]) {
+        if (v.split(" ")[1].toLowerCase() === "dark") {
+          setDark(true);
+          addCompilerData(v, "the theme is changed");
+        } else if (v.split(" ")[1].toLowerCase() === "light") {
+          setDark(false);
+          addCompilerData(v, "the theme is changed");
+        } else {
+          addCompilerData(v, "the input is unvalid");
+        }
+      } else {
+        addCompilerData(v, "this input is unvalid");
+      }
+    }
+    // space
     else if (v.toLowerCase().includes("select tab")) {
       if (v.split(" ")[2] && typeof parseInt(v.split(" ")[2]) === "number") {
         let mes = selectTab(v.split(" ")[2]);
@@ -394,11 +414,15 @@ export default function Terminal() {
     }
     // space
     else if (v.toLowerCase().includes("change name")) {
-      if (v.trim().split(" ")[2] && UserData.uid !== "guest") {
-        let mes = await changeName(v.trim().split(" ")[2]);
-        addCompilerData(v, mes);
+      if (UserData.uid !== "guest") {
+        if (v.trim().split(" ")[2]) {
+          let mes = await changeName(v.trim().split(" ")[2]);
+          addCompilerData(v, mes);
+        } else {
+          addCompilerData(v, "this name is unvalid");
+        }
       } else {
-        addCompilerData(v, "this name is unvalid");
+        addCompilerData(v, "you should be login to change the name");
       }
     }
     // space
@@ -425,6 +449,7 @@ export default function Terminal() {
     }
     // space
     else {
+      setInpStop(false);
       CommandList.filter((c) => c.c.includes(v)).length !== 0
         ? CommandList.filter((c) => c.c.includes(v))[0].c === v
           ? addCompilerData(
@@ -473,6 +498,7 @@ export default function Terminal() {
   return (
     <Gui
       UserData={UserData}
+      isDark={isDark}
       CommandList={CommandList}
       CompilerData={CompilerData}
       istodo={istodo}

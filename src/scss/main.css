@@ -151,10 +151,10 @@ a:hover {
   min-height: 2.6rem;
   display: flex;
   flex-direction: row;
-  align-items: end;
+  align-items: flex-end;
   justify-content: flex-start;
   border-radius: 10px 10px 0px 0px;
-  background-color: #5542d3;
+  background-color: white;
 }
 .Tab nav .btns {
   padding-left: 1rem;
@@ -182,8 +182,10 @@ a:hover {
 }
 .Tab nav .btns > div {
   cursor: pointer;
-  transition: 0.5s background-color ease-out;
+  transition: 0.3s background-color ease-out;
   background-color: white;
+  border: black 2px solid;
+  border-bottom: none;
   border-radius: 5px 5px 0px 0px;
   cursor: pointer;
   height: 2.4rem;
@@ -193,15 +195,15 @@ a:hover {
   text-align: start !important;
 }
 .Tab nav .btns > div.gold {
-  background-color: black !important;
-  border-top: white 2px solid;
+  background-color: black;
+  border-top: #715df1 3px solid;
 }
 .Tab nav .btns > div.gold svg {
   color: white;
 }
 .Tab nav .btns > div:hover {
   background: hsla(0deg, 0%, 53.3%, 0.76);
-  border-top: white 2px solid;
+  border-top: #715df1 3px solid;
 }
 .Tab nav .btns > div .delt {
   width: 1.2rem;
@@ -290,10 +292,54 @@ a:hover {
   border-radius: 13px;
   margin-top: 0.5rem;
 }
+.Tab .terminal .chat span,
+.Tab .terminal .todo span,
+.Tab .terminal .help span {
+  color: black;
+}
 .Tab .terminal .chat .author,
 .Tab .terminal .todo .author,
 .Tab .terminal .help .author {
   color: black;
+}
+.Tab#light nav {
+  background-color: black;
+}
+.Tab#light nav .btns > div {
+  border-color: white;
+  background-color: black;
+  color: white;
+}
+.Tab#light nav .btns > div.gold {
+  background-color: white !important;
+  border-top: #5542d3 2px solid;
+  color: black;
+}
+.Tab#light nav .btns > div.gold svg {
+  color: black;
+}
+.Tab#light nav .btns > div:hover {
+  border-top-color: #5542d3;
+  background: hsla(0deg, 0%, 53.3%, 0.76);
+}
+.Tab#light nav .plus {
+  background-color: white;
+}
+.Tab#light nav .plus svg {
+  color: black;
+}
+.Tab#light .terminal {
+  background-color: white;
+  color: black;
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.66);
+}
+.Tab#light .terminal input {
+  color: black;
+}
+.Tab#light .terminal .chat,
+.Tab#light .terminal .todo,
+.Tab#light .terminal .help {
+  color: white;
 }
 
 *::-webkit-scrollbar {
