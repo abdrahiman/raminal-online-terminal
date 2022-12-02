@@ -11,6 +11,7 @@ export default function Gui({
   istodo,
   LocaleTodo,
   chat,
+  Input,
   UserTodo,
   UserComand,
   setUserComand,
@@ -154,6 +155,7 @@ export default function Gui({
               type="text"
               id="com"
               autoFocus
+              ref={Input}
               readOnly={StopInp ? "readOnly" : ""}
               value={UserComand}
               onKeyDown={(ev) => hanlde(ev)}

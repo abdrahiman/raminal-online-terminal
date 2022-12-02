@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { LoginAcc, addAcc, auth, googleMe, app, changeName } from "./auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import {
@@ -57,7 +57,10 @@ export default function Terminal() {
   let [UserTodo, setUserTodo] = useState(false);
   let [auto, setAuto] = useState(-1);
   let [StopInp, setInpStop] = useState(false);
-  let [isDark, setDark] = useState(false);
+  let [isDark, setDark] = useState(
+    localStorage.getItem("Dark") !== null ? localStorage.getItem("Dark") : true
+  );
+  let Input = useRef(null);
 
   let [CommandList] = useState([
     { c: "auth", des: "return the username if is login.... (auth)" },
@@ -159,7 +162,15 @@ export default function Terminal() {
   }, [auth]);
   useEffect(() => {
     addTabData(CompilerData);
+    // Input.focus();
+    return Input.current.scrollIntoView();
   }, [CompilerData]);
+  // useEffect(() => {
+  //   localStorage.setItem("Dark", isDark);
+  //   console.log(isDark);
+  //   console.log(localStorage.getItem("Dark"));
+  // }, [isDark]);
+
   let addCompilerData = (p, va) => {
     setCompilerData((prev) => [
       ...prev,
@@ -381,9 +392,11 @@ export default function Terminal() {
         if (v.split(" ")[1].toLowerCase() === "dark") {
           setDark(true);
           addCompilerData(v, "the theme is changed");
+          localStorage.setItem("Dark", true);
         } else if (v.split(" ")[1].toLowerCase() === "light") {
           setDark(false);
           addCompilerData(v, "the theme is changed");
+          localStorage.setItem("Dark", false);
         } else {
           addCompilerData(v, "the input is unvalid");
         }
@@ -429,6 +442,11 @@ export default function Terminal() {
     else if (v.toLowerCase().trim() === "google") {
       let mes = await googleMe();
       addCompilerData(v, mes);
+    }
+    // space
+    else if (v.toLowerCase().includes("repo")) {
+      window.open(`https://google.com/`, "_blank", "noopener,noreferrer");
+      addCompilerData(v, "the translte page is oppennig ...");
     }
     // space
     else if (v.toLowerCase().includes("translate")) {
@@ -512,6 +530,7 @@ export default function Terminal() {
       Tabs={Tabs}
       Id={Id}
       Compiler={Compiler}
+      Input={Input}
     />
   );
 }

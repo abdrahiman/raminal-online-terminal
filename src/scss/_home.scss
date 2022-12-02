@@ -19,8 +19,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 1.3rem 4rem;
-  padding-bottom: 4%;
+  padding: 4rem;
+  padding-bottom: 1%;
   @media ($m-md) {
     padding: 1rem 2rem;
     font-size: 14px;
@@ -62,7 +62,7 @@
         min-width: 2.8rem;
         height: 2rem;
         background: rgb(243, 243, 243);
-        // border-radius: 5px 5px 0px 0px;
+        border: solid 2px black;
         border-radius: 5px;
         cursor: pointer;
         svg {
@@ -213,6 +213,7 @@
       background-color: black;
       .plus {
         background-color: white;
+        border: none;
         svg {
           color: black;
         }

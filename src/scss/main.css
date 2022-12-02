@@ -123,8 +123,8 @@ a:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 1.3rem 4rem;
-  padding-bottom: 4%;
+  padding: 4rem;
+  padding-bottom: 1%;
   color: 17px;
   box-sizing: border-box;
 }
@@ -173,6 +173,7 @@ a:hover {
   min-width: 2.8rem;
   height: 2rem;
   background: rgb(243, 243, 243);
+  border: solid 2px black;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -324,6 +325,7 @@ a:hover {
 }
 .Tab#light nav .plus {
   background-color: white;
+  border: none;
 }
 .Tab#light nav .plus svg {
   color: black;
