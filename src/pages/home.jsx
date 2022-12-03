@@ -10,16 +10,9 @@ import DiscContext from "../components/DiscDir";
 export default function Home() {
   return (
     <>
-      <motion.div
-        className="bg"
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-      >
-        <img src={Bg4} alt="" />
-      </motion.div>
-      {/* {Tabs.map((t) => (
-        <button>{t.id}</button>
-      ))} */}
+      <div className="bg">
+        <img src={Bg2} alt="" />
+      </div>
       <Terminal />
     </>
   );

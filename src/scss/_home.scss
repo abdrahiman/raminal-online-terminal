@@ -22,14 +22,14 @@
   padding: 4rem;
   padding-bottom: 1%;
   @media ($m-md) {
-    padding: 1rem 2rem;
+    padding: 4rem 1rem 1rem;
     font-size: 14px;
     .terminal {
       padding: 0.7rem;
     }
   }
   @media ($m-mb) {
-    padding: 0.7rem 1.5rem;
+    padding: 4rem 1rem 1rem;
     font-size: 14px;
     .terminal {
       padding: 0.7rem;
@@ -122,6 +122,12 @@
     color: white;
   }
   .terminal {
+    .bigText {
+      @media ($m-md) {
+        min-width: 32rem;
+        font-size: 1.5;
+      }
+    }
     @media ($m-md) {
       padding: 0.7rem;
     }

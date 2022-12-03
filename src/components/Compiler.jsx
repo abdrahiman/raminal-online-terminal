@@ -36,13 +36,7 @@ export default function Terminal() {
   let [CompilerData, setCompilerData] = useState([
     {
       c: "banner",
-      res: `
-        ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
-        ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
-        ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
-        ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
-        ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
-        ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`,
+      res: "",
     },
   ]);
   let [UserComand, setUserComand] = useState("");
@@ -165,12 +159,6 @@ export default function Terminal() {
     // Input.focus();
     return Input.current.scrollIntoView();
   }, [CompilerData]);
-  // useEffect(() => {
-  //   localStorage.setItem("Dark", isDark);
-  //   console.log(isDark);
-  //   console.log(localStorage.getItem("Dark"));
-  // }, [isDark]);
-
   let addCompilerData = (p, va) => {
     setCompilerData((prev) => [
       ...prev,
@@ -185,16 +173,7 @@ export default function Terminal() {
     setInpStop(true);
     // space
     if (v.toLowerCase().trim() === "banner") {
-      addCompilerData(
-        v,
-        `
-        ██████╗░░█████╗░███╗░░░███╗██╗███╗░░██╗░█████╗░██╗░░░░░
-        ██╔══██╗██╔══██╗████╗░████║██║████╗░██║██╔══██╗██║░░░░░
-        ██████╔╝███████║██╔████╔██║██║██╔██╗██║███████║██║░░░░░
-        ██╔══██╗██╔══██║██║╚██╔╝██║██║██║╚████║██╔══██║██║░░░░░
-        ██║░░██║██║░░██║██║░╚═╝░██║██║██║░╚███║██║░░██║███████╗
-        ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝`
-      );
+      addCompilerData(v, "");
     }
     // space
     else if (v.toLowerCase().trim() === "help") {

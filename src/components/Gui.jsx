@@ -85,7 +85,7 @@ export default function Gui({
                   key={Math.random()}
                 >
                   {" "}
-                  {ob.c.trim() === "help" ? (
+                  {ob.c.trim() === "help" && (
                     <div className="help">
                       <h6>Command</h6>
                       <ul>
@@ -103,9 +103,38 @@ export default function Gui({
                         ))}
                       </ul>
                     </div>
-                  ) : (
-                    ob.res
                   )}
+                  {ob.c.trim() === "banner" && (
+                    <>
+                      <p
+                        className="px-2 bigText"
+                        style={{
+                          minWidth: "52rem",
+                          letterSpacing: "0.2rem",
+                          fontSize: "2.5rem",
+                        }}
+                      >
+                        █▀█ ▄▀█ █▀▄▀█ █ █▄░█ ▄▀█ █░░
+                        █▀▄ █▀█ █░▀░█ █ █░▀█ █▀█ █▄▄
+                        <small
+                          style={{
+                            fontSize: "1rem",
+                          }}
+                        >
+                          {"   "} v-0.1
+                        </small>
+                      </p>
+                      <div>
+                        Type 'help' to see list of available commands.
+                        <br /> -- <br />
+                        The project is open-source 🎉 type 'repo' to check out
+                        the repository.
+                        <br /> New 🎉: Try out the new 'theme' command. <br />{" "}
+                        --
+                      </div>
+                    </>
+                  )}
+                  {ob.res}
                 </div>
               </div>
             ))}
