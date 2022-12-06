@@ -6,7 +6,9 @@
 /gitThings.txt
 /old_src
 .pnp.js
-
+/data
+main.js
+module.js
 # testing
 /coverage
 

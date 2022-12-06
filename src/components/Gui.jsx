@@ -1,9 +1,7 @@
 import { FcRight } from "react-icons/fc";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { IoCloseOutline } from "react-icons/io5";
-import Bg from "../imgs/WallpaperDog-20557717.jpg";
-import { motion } from "framer-motion";
-
+import Input from "./Input";
 export default function Gui({
   UserData,
   CommandList,
@@ -11,7 +9,6 @@ export default function Gui({
   istodo,
   LocaleTodo,
   chat,
-  Input,
   UserTodo,
   UserComand,
   setUserComand,
@@ -61,11 +58,6 @@ export default function Gui({
         </div>
       </nav>
       <div className="terminal" style={{ overflowY: "auto" }}>
-        {/* <div
-          className="bg"
-        >
-          <img src={Bg} alt="" />
-        </div> */}
         <div className="comands">
           {CompilerData &&
             CompilerData.map((ob) => (
@@ -180,19 +172,11 @@ export default function Gui({
             @raminal.com:$ <span className="px-2"> ~</span>
           </label>
           <div className="">
-            <input
-              type="text"
-              id="com"
-              autoFocus
-              ref={Input}
-              readOnly={StopInp ? "readOnly" : ""}
-              value={UserComand}
-              onKeyDown={(ev) => hanlde(ev)}
-              onChange={(event) => setUserComand(event.target.value)}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              aria-label="prompt"
+            <Input
+              UserComand={UserComand}
+              StopInp={StopInp}
+              hanlde={hanlde}
+              setUserComand={setUserComand}
             />
             <div className="autFeild flex flex-row gap-4">
               {UserComand
